@@ -1331,8 +1331,16 @@ def _get_video_metadata(path: _Path) -> VideoMetadata:
       if not (match := re.search(r', (\d+)x(\d+)', line)):
         raise RuntimeError(f'Unable to parse video dimensions in line {line}')
       width, height = int(match.group(1)), int(match.group(2))
-      if match := re.search(r', ([\d.]+) fps', line):
-        fps = float(match.group(1))
+      # Some videos have a 'k' suffix for kiloframes per second. Thus an extra
+      # `(k?)` is used for this case. This usually happens when we don't know
+      # the exact framerate. However, in order to not raise an error here, we
+      # will try to parse the framerate as x1000.
+      if match := re.search(r', ([\d.]+)(k?) fps', line):
+        number = float(match.group(1))
+        if match.group(2) == 'k':
+          fps = number * 1000
+        else:
+          fps = number
       elif str(path).endswith('.gif'):
         # Some GIF files lack a framerate attribute; use a reasonable default.
         fps = 10
