@@ -455,9 +455,9 @@ class MediapyTest(parameterized.TestCase):
       media.show_image(media.color_ramp())
     self.assertLen(htmls, 1)
     self.assertIsInstance(htmls[0], IPython.display.HTML)
-    self.assertLen(re.findall('(?s)<table', htmls[0].data), 1)
-    self.assertRegex(htmls[0].data, '(?s)<img width=[^<>]*/>')
-    self.assertLen(re.findall('(?s)<img', htmls[0].data), 1)
+    self.assertLen(re.findall('(?s)<table', htmls[0].data), 1)  # pyrefly: ignore[no-matching-overload]
+    self.assertRegex(htmls[0].data, '(?s)<img width=[^<>]*/>')  # pyrefly: ignore[bad-specialization]
+    self.assertLen(re.findall('(?s)<img', htmls[0].data), 1)  # pyrefly: ignore[no-matching-overload]
 
   def test_set_show_save_dir_image(self):
     self.enter_context(mock.patch('IPython.display.display'))
@@ -495,9 +495,9 @@ class MediapyTest(parameterized.TestCase):
       media.show_image(media.color_ramp((10, 10)))
     self.assertLen(htmls, 1)
     self.assertIsInstance(htmls[0], IPython.display.HTML)
-    self.assertLen(re.findall('(?s)<img', htmls[0].data), 1)
-    self.assertLen(re.findall('(?s)image-rendering:auto', htmls[0].data), 1)
-    self.assertEmpty(re.findall('(?s)image-rendering:pixelated', htmls[0].data))
+    self.assertLen(re.findall('(?s)<img', htmls[0].data), 1)  # pyrefly: ignore[no-matching-overload]
+    self.assertLen(re.findall('(?s)image-rendering:auto', htmls[0].data), 1)  # pyrefly: ignore[no-matching-overload]
+    self.assertEmpty(re.findall('(?s)image-rendering:pixelated', htmls[0].data))  # pyrefly: ignore[no-matching-overload]
 
   def test_show_image_magnified_pixelated(self):
     htmls = []
@@ -505,11 +505,11 @@ class MediapyTest(parameterized.TestCase):
       media.show_image(media.color_ramp((10, 10)), width=20)
     self.assertLen(htmls, 1)
     self.assertIsInstance(htmls[0], IPython.display.HTML)
-    self.assertLen(re.findall('(?s)<img', htmls[0].data), 1)
+    self.assertLen(re.findall('(?s)<img', htmls[0].data), 1)  # pyrefly: ignore[no-matching-overload]
     self.assertLen(
-        re.findall('(?s)image-rendering:pixelated', htmls[0].data), 1
+        re.findall('(?s)image-rendering:pixelated', htmls[0].data), 1  # pyrefly: ignore[no-matching-overload]
     )
-    self.assertEmpty(re.findall('(?s)image-rendering:auto', htmls[0].data))
+    self.assertEmpty(re.findall('(?s)image-rendering:auto', htmls[0].data))  # pyrefly: ignore[no-matching-overload]
 
   def test_show_images_list(self):
     htmls = []
@@ -517,8 +517,8 @@ class MediapyTest(parameterized.TestCase):
       media.show_images([media.color_ramp()] * 2)
     self.assertLen(htmls, 1)
     self.assertIsInstance(htmls[0], IPython.display.HTML)
-    self.assertLen(re.findall('(?s)<table', htmls[0].data), 1)
-    self.assertLen(re.findall('(?s)<img', htmls[0].data), 2)
+    self.assertLen(re.findall('(?s)<table', htmls[0].data), 1)  # pyrefly: ignore[no-matching-overload]
+    self.assertLen(re.findall('(?s)<img', htmls[0].data), 2)  # pyrefly: ignore[no-matching-overload]
 
   def test_show_images_dict(self):
     htmls = []
@@ -528,9 +528,9 @@ class MediapyTest(parameterized.TestCase):
       )
     self.assertLen(htmls, 1)
     self.assertIsInstance(htmls[0], IPython.display.HTML)
-    self.assertLen(re.findall('(?s)<table', htmls[0].data), 1)
-    self.assertRegex(htmls[0].data, '(?s)title1.*<img .*title2.*<img ')
-    self.assertLen(re.findall('(?s)<img', htmls[0].data), 2)
+    self.assertLen(re.findall('(?s)<table', htmls[0].data), 1)  # pyrefly: ignore[no-matching-overload]
+    self.assertRegex(htmls[0].data, '(?s)title1.*<img .*title2.*<img ')  # pyrefly: ignore[bad-specialization]
+    self.assertLen(re.findall('(?s)<img', htmls[0].data), 2)  # pyrefly: ignore[no-matching-overload]
 
   def test_show_images_over_multiple_rows(self):
     htmls = []
@@ -538,8 +538,8 @@ class MediapyTest(parameterized.TestCase):
       media.show_images([media.color_ramp()] * 5, columns=2)
     self.assertLen(htmls, 1)
     self.assertIsInstance(htmls[0], IPython.display.HTML)
-    self.assertLen(re.findall('(?s)<table', htmls[0].data), 3)
-    self.assertLen(re.findall('(?s)<img', htmls[0].data), 5)
+    self.assertLen(re.findall('(?s)<table', htmls[0].data), 3)  # pyrefly: ignore[no-matching-overload]
+    self.assertLen(re.findall('(?s)<img', htmls[0].data), 5)  # pyrefly: ignore[no-matching-overload]
 
   def test_compare_images(self):
     htmls = []
@@ -547,9 +547,9 @@ class MediapyTest(parameterized.TestCase):
       media.compare_images([media.color_ramp()] * 2)
     self.assertLen(htmls, 1)
     self.assertIsInstance(htmls[0], IPython.display.HTML)
-    self.assertLen(re.findall('(?s)<img-comparison-slider>', htmls[0].data), 1)
-    self.assertLen(re.findall('(?s)base64', htmls[0].data), 2)
-    self.assertEmpty(re.findall('(?s)b64', htmls[0].data))
+    self.assertLen(re.findall('(?s)<img-comparison-slider>', htmls[0].data), 1)  # pyrefly: ignore[no-matching-overload]
+    self.assertLen(re.findall('(?s)base64', htmls[0].data), 2)  # pyrefly: ignore[no-matching-overload]
+    self.assertEmpty(re.findall('(?s)b64', htmls[0].data))  # pyrefly: ignore[no-matching-overload]
 
   @parameterized.parameters([False, True], [False, True])
   def test_video_non_streaming_write_read_roundtrip(
@@ -573,7 +573,7 @@ class MediapyTest(parameterized.TestCase):
       self.assertEqual(new_video.metadata.num_images, num_images)
       self.assertEqual(new_video.metadata.shape, shape)
       self.assertEqual(new_video.metadata.fps, fps)
-      self.assertGreater(new_video.metadata.bps, 1_000)
+      self.assertGreater(new_video.metadata.bps, 1_000)  # pyrefly: ignore[no-matching-overload]
       self._check_similar(original_video, new_video, max_rms)
 
   def test_video_streaming_write_read_roundtrip(self):
@@ -629,7 +629,7 @@ class MediapyTest(parameterized.TestCase):
       self.assertEqual(new_video.metadata.num_images, num_images)
       self.assertEqual(new_video.metadata.shape, shape)
       self.assertEqual(new_video.metadata.fps, fps)
-      self.assertGreater(new_video.metadata.bps, 1_000)
+      self.assertGreater(new_video.metadata.bps, 1_000)  # pyrefly: ignore[no-matching-overload]
       self._check_similar(video, new_video, 3.0)
 
   def test_video_read_write_10bit(self):
@@ -703,8 +703,8 @@ class MediapyTest(parameterized.TestCase):
       media.show_video(media.moving_circle())
     self.assertLen(htmls, 1)
     self.assertIsInstance(htmls[0], IPython.display.HTML)
-    self.assertLen(re.findall('(?s)<video', htmls[0].data), 1)
-    self.assertRegex(htmls[0].data, '(?s)<video .*>.*</video>')
+    self.assertLen(re.findall('(?s)<video', htmls[0].data), 1)  # pyrefly: ignore[no-matching-overload]
+    self.assertRegex(htmls[0].data, '(?s)<video .*>.*</video>')  # pyrefly: ignore[bad-specialization]
 
   def test_show_video_gif(self):
     htmls = []
@@ -741,8 +741,8 @@ class MediapyTest(parameterized.TestCase):
       media.show_videos([media.moving_circle()] * 2)
     self.assertLen(htmls, 1)
     self.assertIsInstance(htmls[0], IPython.display.HTML)
-    self.assertLen(re.findall('(?s)<table', htmls[0].data), 1)
-    self.assertLen(re.findall('(?s)<video', htmls[0].data), 2)
+    self.assertLen(re.findall('(?s)<table', htmls[0].data), 1)  # pyrefly: ignore[no-matching-overload]
+    self.assertLen(re.findall('(?s)<video', htmls[0].data), 2)  # pyrefly: ignore[no-matching-overload]
 
   def test_show_videos_dict(self):
     htmls = []
@@ -754,9 +754,9 @@ class MediapyTest(parameterized.TestCase):
       media.show_videos(videos)
     self.assertLen(htmls, 1)
     self.assertIsInstance(htmls[0], IPython.display.HTML)
-    self.assertLen(re.findall('(?s)<table', htmls[0].data), 1)
-    self.assertRegex(htmls[0].data, '(?s)title1.*<video.*title2.*<video')
-    self.assertLen(re.findall('(?s)<video', htmls[0].data), 2)
+    self.assertLen(re.findall('(?s)<table', htmls[0].data), 1)  # pyrefly: ignore[no-matching-overload]
+    self.assertRegex(htmls[0].data, '(?s)title1.*<video.*title2.*<video')  # pyrefly: ignore[bad-specialization]
+    self.assertLen(re.findall('(?s)<video', htmls[0].data), 2)  # pyrefly: ignore[no-matching-overload]
 
   def test_show_videos_over_multiple_rows(self):
     htmls = []
@@ -764,8 +764,8 @@ class MediapyTest(parameterized.TestCase):
       media.show_videos([media.moving_circle()] * 12, columns=3)
     self.assertLen(htmls, 1)
     self.assertIsInstance(htmls[0], IPython.display.HTML)
-    self.assertLen(re.findall('(?s)<table', htmls[0].data), 4)
-    self.assertLen(re.findall('(?s)<video', htmls[0].data), 12)
+    self.assertLen(re.findall('(?s)<table', htmls[0].data), 4)  # pyrefly: ignore[no-matching-overload]
+    self.assertLen(re.findall('(?s)<video', htmls[0].data), 12)  # pyrefly: ignore[no-matching-overload]
 
   def test_show_image_out_str(self):
     htmls = []

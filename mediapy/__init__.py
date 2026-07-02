@@ -400,7 +400,7 @@ def to_type(array: _ArrayLike, dtype: _DTypeLike) -> _NDArray:
   if a.dtype == bool:
     result = a.astype(dtype)
     if np.issubdtype(dtype, np.unsignedinteger):
-      result = result * dtype.type(np.iinfo(dtype).max)
+      result = result * dtype.type(np.iinfo(dtype).max)  # pyrefly: ignore[no-matching-overload]
   elif a.dtype == dtype:
     result = a
   elif np.issubdtype(dtype, np.unsignedinteger):
@@ -409,7 +409,7 @@ def to_type(array: _ArrayLike, dtype: _DTypeLike) -> _NDArray:
     else:
       a = np.clip(a, 0.0, 1.0)
       src_max = 1.0
-    dst_max = np.iinfo(dtype).max
+    dst_max = np.iinfo(dtype).max  # pyrefly: ignore[no-matching-overload]
     if dst_max <= np.iinfo(np.uint16).max:
       scale = np.array(dst_max / src_max, dtype=np.float32)
       result = (a * scale + 0.5).astype(dtype)
@@ -769,7 +769,7 @@ def read_image(
     path_or_url: _Path,
     *,
     apply_exif_transpose: bool = True,
-    dtype: _DTypeLike = None,
+    dtype: _DTypeLike = None,  # pyrefly: ignore[bad-function-definition]
 ) -> _NDArray:
   """Returns an image read from a file path or URL.
 
@@ -873,7 +873,7 @@ def compress_image(
 
 
 def decompress_image(
-    data: bytes, dtype: _DTypeLike = None, apply_exif_transpose: bool = True
+    data: bytes, dtype: _DTypeLike = None, apply_exif_transpose: bool = True  # pyrefly: ignore[bad-function-definition]
 ) -> _NDArray:
   """Returns an image from a compressed data buffer.
 
@@ -949,7 +949,7 @@ def _get_width_height(
     return width, int(width * (shape[0] / shape[1]) + 0.5)
   if height and not width:
     return int(height * (shape[1] / shape[0]) + 0.5), height
-  return shape[::-1]
+  return shape[::-1]  # pyrefly: ignore[bad-return]
 
 
 def _ensure_mapped_to_rgb(
@@ -1094,7 +1094,7 @@ def show_images(
       pixelated2 = pixelated if pixelated is not None else magnified
       html_strings.append(
           html_from_compressed_image(
-              png_data, w, h, title=title, border=border, pixelated=pixelated2
+              png_data, w, h, title=title, border=border, pixelated=pixelated2  # pyrefly: ignore[bad-argument-type]
           )
       )
     # Create single-row tables each with no more than 'columns' elements.
@@ -1380,7 +1380,7 @@ class _VideoIO:
             'yuv': 'yuv444p16' + native_endian_suffix,
             'gray': 'gray16' + native_endian_suffix,
         },
-    }[dtype.type][image_format]
+    }[dtype.type][image_format]  # pyrefly: ignore[bad-index]
 
 
 class VideoReader(_VideoIO):
@@ -2091,11 +2091,11 @@ def show_videos(
     if codec == 'gif':
       pixelated = h > first_image.shape[0] or w > first_image.shape[1]
       html_string = html_from_compressed_image(
-          data, w, h, title=title, fmt='gif', pixelated=pixelated, **kwargs
+          data, w, h, title=title, fmt='gif', pixelated=pixelated, **kwargs  # pyrefly: ignore[bad-argument-type]
       )
     else:
       html_string = html_from_compressed_video(
-          data, w, h, title=title, **kwargs
+          data, w, h, title=title, **kwargs  # pyrefly: ignore[bad-argument-type]
       )
     html_strings.append(html_string)
 
