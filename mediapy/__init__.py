@@ -742,7 +742,7 @@ def _write_via_local_file(path: _Path) -> Generator[str, None, None]:
 
 
 @contextlib.contextmanager
-def _audio_via_local_file(audio: _NDArray) -> Iterator[str]:
+def _audio_via_local_file(audio: _NDArray) -> Generator[str, None, None]:
   """Context to write audio samples to a temporary local file.
 
   Args:
@@ -2185,18 +2185,23 @@ def show_videos(
           f' ({len(list_videos)} vs {len(list_titles)}).'
       )
 
+  list_audios: list[_NDArray | None]
   if audios is None:
     list_audios = [None] * len(list_videos)
   elif isinstance(audios, Mapping):
-    missing = set(list_titles).difference(audios)
-    extra = set(audios).difference(list_titles)
+    audio_of_title = typing.cast('Mapping[str, _NDArray]', audios)
+    missing = set(list_titles).difference(audio_of_title)
+    extra = set(audio_of_title).difference(list_titles)
     if missing or extra:
       raise ValueError(
           'The audios dictionary keys must match the video titles (use None as'
           f' the value for no audio); missing: {sorted(missing, key=str)},'
           f' extra: {sorted(extra, key=str)}.'
       )
-    list_audios = [audios.get(title) for title in list_titles]  # pyrefly: ignore[bad-argument-type]
+    # The check above ensures that each title is a key, so none is None.
+    list_audios = [
+        audio_of_title[title] for title in list_titles if title is not None
+    ]
   else:
     list_audios = list(audios)
 

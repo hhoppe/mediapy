@@ -846,14 +846,12 @@ class MediapyTest(parameterized.TestCase):
     num_samples = int(sample_rate * len(video) / fps)
     audio_data = _sine_audio(num_samples, 440.0, sample_rate)
 
-    htmls = []
-    with mock.patch('IPython.display.display', htmls.append):
-      media.show_video(
-          video, fps=fps, audios=[audio_data], audio_sample_rate=sample_rate
-      )
-    self.assertLen(htmls, 1)
-    self.assertIsInstance(htmls[0], IPython.display.HTML)
-    self.assertRegex(htmls[0].data, '(?s)<video .*>.*</video>')  # pyrefly: ignore[bad-specialization]
+    s = self.capture_html_string(
+        lambda: media.show_video(
+            video, fps=fps, audios=[audio_data], audio_sample_rate=sample_rate
+        )
+    )
+    self.assertRegex(s, '(?s)<video .*>.*</video>')
 
   def test_show_video_gif(self):
     s = self.capture_html_string(
@@ -917,18 +915,16 @@ class MediapyTest(parameterized.TestCase):
       videos = [video] * 2
       audios = audio
 
-    htmls = []
-    with mock.patch('IPython.display.display', htmls.append):
-      media.show_videos(
-          videos, fps=fps, audios=audios, audio_sample_rate=sample_rate
-      )
-    self.assertLen(htmls, 1)
-    self.assertIsInstance(htmls[0], IPython.display.HTML)
-    self.assertLen(re.findall('(?s)<video', htmls[0].data), 2)  # pyrefly: ignore[no-matching-overload]
+    s = self.capture_html_string(
+        lambda: media.show_videos(
+            videos, fps=fps, audios=audios, audio_sample_rate=sample_rate
+        )
+    )
+    self.assertLen(re.findall('(?s)<video', s), 2)
 
     # Decode the embedded videos to verify that each one carries its own track
     # rather than a single shared one.
-    b64_videos = re.findall('base64,([^"]+)"', htmls[0].data)  # pyrefly: ignore[no-matching-overload]
+    b64_videos = re.findall('base64,([^"]+)"', s)
     self.assertLen(b64_videos, 2)
     with tempfile.TemporaryDirectory() as directory_name:
       for index, (b64_video, frequency) in enumerate(
