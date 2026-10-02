@@ -141,16 +141,16 @@ def darken_image(image):
 
 # %%
 # Darken a video frame-by-frame:
-new_file = '/tmp/out.mp4'
+NEW_FILE = '/tmp/out.mp4'
 with media.VideoReader(VIDEO) as reader:
   print(f'num_images={reader.num_images} shape={reader.shape} fps={reader.fps}')
   with media.VideoWriter(
-      new_file, shape=reader.shape, fps=reader.fps / 5
+      NEW_FILE, shape=reader.shape, fps=reader.fps / 5
   ) as writer:
     for image in reader:
       writer.add_image(darken_image(image))
 
-media.show_video(media.read_video(new_file), height=90)
+media.show_video(media.read_video(NEW_FILE), height=90)
 
 # %%
 # Show multiple videos side-by-side.
