@@ -22,12 +22,13 @@ import sys
 import tempfile
 from unittest import mock
 
+from absl.testing import absltest
+from absl.testing import parameterized
 import IPython.display
 import matplotlib.pyplot
-import numpy as np
-from absl.testing import absltest, parameterized
-
 import mediapy as media
+import numpy as np
+
 
 # pylint: disable=missing-function-docstring, protected-access
 # pylint: disable=too-many-public-methods

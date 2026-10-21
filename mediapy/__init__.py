@@ -109,6 +109,7 @@ __version__ = '1.2.7'
 __version_info__ = tuple(int(num) for num in __version__.split('.'))
 
 import base64
+from collections.abc import Callable, Generator, Iterable, Iterator, Mapping, Sequence
 import contextlib
 import functools
 import importlib
@@ -125,10 +126,9 @@ import subprocess
 import sys
 import tempfile
 import typing
+from typing import Any, TypeVar
 import urllib.request
 import warnings
-from collections.abc import Callable, Generator, Iterable, Iterator, Mapping, Sequence
-from typing import Any, TypeVar
 
 import IPython.display
 import matplotlib.pyplot
@@ -136,6 +136,7 @@ import numpy as np
 import numpy.typing as npt
 import PIL.Image
 import PIL.ImageOps
+
 
 if not hasattr(PIL.Image, 'Resampling'):  # Allow Pillow<9.0.
   PIL.Image.Resampling = PIL.Image  # type: ignore
